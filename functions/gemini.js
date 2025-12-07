@@ -31,11 +31,6 @@ export async function onRequest(context) {
     return new Response(JSON.stringify({ error: 'Missing action' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
   }
 
-  const apiKey = env.GEMINI_API_KEY || '';
-  if (!apiKey) {
-    return new Response(JSON.stringify({ error: 'GEMINI_API_KEY not configured in Cloudflare Pages environment' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
-  }
-
   // Helpers
   const cleanBase64 = (base64) => base64.replace(/^data:image\/(png|jpeg|jpg|webp);base64,/, '');
   const cleanJsonString = (text) => {
