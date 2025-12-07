@@ -6,54 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>SnapStory</title>
     <!-- Tailwind loaded via PostCSS during build; removed CDN usage for production -->
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              brand: {
-                yellow: '#FBBF24', // Gold (Stars/Coins)
-                orange: '#F97316', // Orange (Secondary Action)
-                blue: '#3B82F6',   // Blue (Primary Brand)
-                green: '#10B981',  // Emerald (Success)
-                purple: '#8B5CF6', // Accent
-              }
-            },
-            fontFamily: {
-              sans: ['Comic Sans MS', 'Chalkboard SE', 'sans-serif'],
-            },
-            animation: {
-              'bounce-slow': 'bounce 3s infinite',
-              'pop-in': 'popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-              'pulse-glow': 'pulseGlow 2s infinite',
-              'grab-pop': 'grabPop 0.8s ease-out forwards',
-              'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
-            },
-            keyframes: {
-              popIn: {
-                '0%': { opacity: '0', transform: 'scale(0.5)' },
-                '100%': { opacity: '1', transform: 'scale(1)' },
-              },
-              pulseGlow: {
-                '0%, 100%': { boxShadow: '0 0 10px #3B82F6' },
-                '50%': { boxShadow: '0 0 25px #3B82F6' },
-              },
-              grabPop: {
-                '0%': { transform: 'translate(-50%, -50%) scale(0.5)', opacity: '0' },
-                '50%': { transform: 'translate(-50%, -50%) scale(1.2)', opacity: '1' },
-                '100%': { transform: 'translate(-50%, -150%) scale(0.8)', opacity: '0' }
-              },
-              shake: {
-                '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
-                '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
-                '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
-                '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
-              }
-            }
-          },
-        },
-      }
-    </script>
+    <!-- Tailwind configuration moved to `tailwind.config.cjs` for build-time processing. -->
+    <link rel="icon" href="/favicon.svg" />
     <style>
       /* Custom scrollbar for kids app */
       ::-webkit-scrollbar {
