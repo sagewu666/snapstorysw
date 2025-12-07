@@ -6,15 +6,13 @@ type ReqBody = {
 };
 
 export default async function handler(req: any, res: any) {
-  // 先處理 GET 讓你在瀏覽器裡測試不會報錯
-  if (req.method === "GET") {
-    res.status(200).json({ ok: true, message: "Gemini endpoint is alive" });
-    return;
-  }
-
-  // 只拒絕非常奇怪的 method 其他走正常流程
+  // 先把所有非 POST 的請求都當成「健康檢查」
   if (req.method !== "POST") {
-    res.status(405).json({ error: `Method ${req.method} not allowed` });
+    res.status(200).json({
+      ok: true,
+      message: "Gemini endpoint is alive",
+      method: req.method,
+    });
     return;
   }
 
@@ -34,8 +32,8 @@ export default async function handler(req: any, res: any) {
     return;
   }
 
-  if (action !== "identifyObject") {
-    res.status(400).json({ error: `Unknown action "${action}"` });
+  if (!action) {
+    res.status(400).json({ error: "Missing action" });
     return;
   }
 
@@ -43,28 +41,31 @@ export default async function handler(req: any, res: any) {
     const client = new GoogleGenerativeAI(apiKey);
     const model = client.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-    const imageBase64: string | undefined = data?.imageBase64;
-    const theme = data?.theme;
+    let result: any;
 
-    if (!imageBase64) {
-      res.status(400).json({ error: "Missing imageBase64" });
-      return;
-    }
+    if (action === "identifyObject") {
+      const imageBase64: string | undefined = data?.imageBase64;
+      const theme = data?.theme;
 
-    const cleaned = imageBase64.replace(
-      /^data:image\/[a-zA-Z]+;base64,/,
-      ""
-    );
+      if (!imageBase64) {
+        res.status(400).json({ error: "Missing imageBase64" });
+        return;
+      }
 
-    const parts = [
-      {
-        inlineData: {
-          mimeType: "image/png",
-          data: cleaned,
+      const cleaned = imageBase64.replace(
+        /^data:image\/[a-zA-Z]+;base64,/,
+        ""
+      );
+
+      const parts = [
+        {
+          inlineData: {
+            mimeType: "image/png",
+            data: cleaned,
+          },
         },
-      },
-      {
-        text: `
+        {
+          text: `
 You are helping a young child do an English learning mission.
 
 Mission theme:
@@ -79,28 +80,32 @@ Look at the picture and answer in strict JSON only:
   "feedback": "one short sentence of feedback"
 }
 Only output JSON.`,
-      },
-    ];
+        },
+      ];
 
-    const gemRes = await model.generateContent({
-      contents: [{ role: "user", parts }],
-    });
+      const gemRes = await model.generateContent({
+        contents: [{ role: "user", parts }],
+      });
 
-    const text = await gemRes.response.text();
-    const jsonText = extractJson(text);
+      const text = await gemRes.response.text();
+      const jsonText = extractJson(text);
 
-    let result: any;
-    try {
-      result = JSON.parse(jsonText);
-    } catch {
-      result = {
-        word: "object",
-        definition: text,
-        visualDetail: "",
-        matchesTheme: false,
-        feedback:
-          "I am not sure this matches the mission. Try another picture.",
-      };
+      try {
+        result = JSON.parse(jsonText);
+      } catch {
+        result = {
+          word: "object",
+          definition: text,
+          visualDetail: "",
+          matchesTheme: false,
+          feedback:
+            "I am not sure this matches the mission. Try another picture.",
+        };
+      }
+    } else {
+      // 先不處理其他 action 避免干擾
+      res.status(400).json({ error: `Unknown action "${action}"` });
+      return;
     }
 
     res.status(200).json(result);
