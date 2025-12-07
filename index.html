@@ -1,77 +1,26 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SnapStory</title>
-    <!-- Tailwind loaded via PostCSS during build; removed CDN usage for production -->
-    <!-- Tailwind configuration moved to `tailwind.config.cjs` for build-time processing. -->
     <link rel="icon" href="/favicon.svg" />
+
     <style>
-      /* Custom scrollbar for kids app */
-      ::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: transparent;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #cbd5e1;
-        border-radius: 10px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8;
-      }
       html, body, #root {
         height: 100%;
         margin: 0;
         padding: 0;
         width: 100%;
-        overflow: hidden; /* Prevent elastic scrolling on body */
-        background-color: #eff6ff; /* Blue-50 */
-        -webkit-tap-highlight-color: transparent;
-      }
-      .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-      }
-      .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-      }
-      .perspective-1000 {
-        perspective: 1000px;
-      }
-      .preserve-3d {
-        transform-style: preserve-3d;
-      }
-      .backface-hidden {
-        backface-visibility: hidden;
-      }
-      .rotate-y-180 {
-        transform: rotateY(180deg);
-      }
-      /* Ensure full height usage on mobile */
-      .h-dvh {
-        height: 100dvh;
+        background-color: #eff6ff;
       }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
-    "canvas-confetti": "https://aistudiocdn.com/canvas-confetti@^1.9.4"
-  }
-}
-</script>
-</head>
+  </head>
+
   <body>
     <div id="root"></div>
-    <script type="module" src="./App.jsx"></script>
+
+    <!-- ⭐ Vite 正确入口：必须是 /src/index.tsx 或 /index.tsx -->
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
