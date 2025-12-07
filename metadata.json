@@ -1,0 +1,8 @@
+{
+  "name": "4083 Final Project-Snapstory",
+  "description": "An AI-powered English learning adventure for kids. Snap photos, learn words, and create magical stories.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
