@@ -6,8 +6,15 @@ type ReqBody = {
 };
 
 export default async function handler(req: any, res: any) {
+  // 先處理 GET 讓你在瀏覽器裡測試不會報錯
+  if (req.method === "GET") {
+    res.status(200).json({ ok: true, message: "Gemini endpoint is alive" });
+    return;
+  }
+
+  // 只拒絕非常奇怪的 method 其他走正常流程
   if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed" });
+    res.status(405).json({ error: `Method ${req.method} not allowed` });
     return;
   }
 
@@ -114,4 +121,5 @@ function extractJson(text: string): string {
   }
   return text;
 }
+
 
