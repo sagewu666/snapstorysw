@@ -1,0 +1,14 @@
+# Wrangler configuration (helpful if you also deploy Cloudflare Workers or want to use wrangler locally)
+# NOTE: Replace the placeholders below with your Cloudflare account details when you want to publish.
+
+name = "snapstorysw-pages"
+compatibility_date = "2025-12-07"
+
+[vars]
+# Example to surface the gemini key to worker (DO NOT commit real keys).
+# Set `GEMINI_API_KEY` in Cloudflare Pages / Workers environment variables instead of here.
+# GEMINI_API_KEY = "your_key_here"
+
+# If you plan to publish a Worker separately, set your account id and other fields.
+# account_id = "your-cloudflare-account-id"
+# route = ""
